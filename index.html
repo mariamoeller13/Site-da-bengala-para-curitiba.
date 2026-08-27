@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Tecnologia Assistiva & Projetos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #1a568c;
+            --primary-hover: #13406a;
+            --accent-color: #27ae60;
+            --border-color: #dcdfe6;
+            --code-bg: #1e1e1e;
+            --code-color: #d4d4d4;
+            --header-bg: #1a568c;
+            --header-text: #ffffff;
+            --focus-outline: 3px solid #f39c12;
+            --reader-bar-bg: #2c3e50;
+            --reader-bar-text: #ffffff;
+        }
+
+
+        /* High Contrast Theme Variables */
+        body.high-contrast {
+            --bg-color: #000000;
+            --card-bg: #000000;
+            --text-color: #ffff00;
+            --primary-color: #ffff00;
+            --primary-hover: #ffffff;
+            --accent-color: #00ffff;
+            --border-color: #ffff00;
+            --code-bg: #000000;
+            --code-color: #00ff00;
+            --header-bg: #000000;
+            --header-text: #ffff00;
+            --focus-outline: 4px solid #00ffff;
+            --reader-bar-bg: #1a1a1a;
+            --reader-bar-text: #ffff00;
+        }
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 90px; /* Space for sticky screen reader bar */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        /* Skip link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #f39c12;
+            color: #000;
+            padding: 8px;
+            z-index: 1000;
+            transition: top 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+
+        /* Focus Styling for Accessibility */
+        :focus-visible {
+            outline: var(--focus-outline) !important;
+            outline-offset: 3px;
+        }
+
+
+        /* Header Layout */
+        header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+
+        .header-title p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+
+        .accessibility-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+
+        .btn-acc {
+            background: transparent;
+            border: 2px solid var(--header-text);
+            color: var(--header-text);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+
+        .btn-acc:hover {
+            background: var(--header-text);
+            color: var(--header-bg);
+        }
+
+
+        /* Navigation Tabs */
+        nav.tabs-nav {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+        }
+
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+
+        .tab-btn:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+
+        .tab-btn.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: rgba(0,0,0,0.02);
+        }
+
+
+        body.high-contrast .tab-btn.active {
+            border-bottom-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+
+        /* Main Content Area */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+
+        .tab-content.active {
+            display: block;
+        }
+
+
+        /* Typography & Document Styles */
+        h1, h2, h3, h4 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+
+        body.high-contrast h1,
+        body.high-contrast h2,
+        body.high-contrast h3,
+        body.high-contrast h4 {
+            color: var(--text-color);
+        }
+
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+        }
+
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.8rem;
+        }
+
+
+        li {
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+
+        .doc-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+
+        /* Hero / Welcome Banner */
+        .welcome-hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, rgba(26,86,140,0.1), rgba(39,174,96,0.1));
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+
+        .welcome-hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+
+        body.high-contrast .card i {
+            color: var(--accent-color);
+        }
+
+
+        /* Code Display Styling */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background: rgba(0,0,0,0.06);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+
+        body.high-contrast code {
+            background: #333;
+            color: #00ff00;
+        }
+
+
+        /* Sticky Screen Reader Toolbar */
+        .reader-toolbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--reader-bar-bg);
+            color: var(--reader-bar-text);
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+
+        .reader-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 500;
+        }
+
+
+        .reader-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+
+        .btn-reader {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+
+        .btn-reader:hover {
+            opacity: 0.9;
+        }
+
+
+        .btn-reader.stop {
+            background: #e74c3c;
+        }
+
+
+        .reader-select {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            max-width: 200px;
+        }
+
+
+        /* Status indicator */
+        .status-badge {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #95a5a6;
+        }
+        .status-badge.speaking {
+            background-color: #2ecc71;
+            box-shadow: 0 0 8px #2ecc71;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .reader-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .reader-controls {
+                justify-content: space-between;
+            }
+            .tab-btn {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            .tab-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+
+    <!-- Header Section -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="header-title">
+                <h1><i class="fa-solid fa-universal-access" aria-hidden="true"></i> Portal de Acessibilidade & Projetos</h1>
+                <p>Plataforma Integrada de Documentação e Leitura Acessível</p>
+            </div>
+            <div class="accessibility-controls">
+                <button id="contrast-toggle" class="btn-acc" aria-label="Alternar modo de alto contraste">
+                    <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> Alto Contraste
+                </button>
+                <button id="font-increase" class="btn-acc" aria-label="Aumentar tamanho do texto">A+</button>
+                <button id="font-decrease" class="btn-acc" aria-label="Diminuir tamanho do texto">A-</button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-nav" aria-label="Navegação por Abas">
+        <div class="tabs-container" role="tablist">
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-0" id="tablink-0" onclick="openTab(event, 'tab-0')">
+                <i class="fa-solid fa-house" aria-hidden="true"></i> Inicio
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-1" id="tablink-1" onclick="openTab(event, 'tab-1')">
+                <i class="fa-solid fa-eye" aria-hidden="true"></i> 1. Deficiência Visual & Óptica
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-2" id="tablink-2" onclick="openTab(event, 'tab-2')">
+                <i class="fa-solid fa-traffic-light" aria-hidden="true"></i> 2. Semáforo Arduino
+            </button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-3" id="tablink-3" onclick="openTab(event, 'tab-3')">
+                <i class="fa-solid fa-cane-user" aria-hidden="true"></i> 3. Bengala Inteligente
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- Main Content Containers -->
+    <main id="main-content">
+
+
+        <!-- ABA 1: PRINCIPAL / INÍCIO -->
+        <section id="tab-0" class="tab-content active" role="tabpanel" aria-labelledby="tablink-0">
+            <div class="welcome-hero">
+                <h2>Bem-vindo ao Portal Informativo e Acessível</h2>
+                <p>Esta plataforma foi projetada para apresentar documentos acadêmicos e projetos tecnológicos de forma totalmente acessível, contando com leitor de voz integrado, alto contraste e ajuste de tipografia.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3><i class="fa-solid fa-folder-open" aria-hidden="true"></i> Documentos e Projetos Disponíveis</h3>
+                <p>Navegue pelas abas superiores ou utilize os cartões abaixo para acessar o conteúdo completo de cada documento:</p>
+
+
+                <div class="card-grid">
+                    <div class="card" onclick="switchTab('tab-1')" tabindex="0" role="button" aria-label="Acessar documento sobre Deficiência Visual, Olhos, Lentes e Espelhos">
+                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        <h4>Deficiência Visual & Óptica</h4>
+                        <p>Estudo detalhado sobre anatomia ocular, patologias da visão, tipos de lentes, espelhos e inclusão social.</p>
+                    </div>
+
+
+                    <div class="card" onclick="switchTab('tab-2')" tabindex="0" role="button" aria-label="Acessar projeto de Semáforo com Arduino">
+                        <i class="fa-solid fa-traffic-light" aria-hidden="true"></i>
+                        <h4>Semáforo com Arduino</h4>
+                        <p>Projeto prático de eletrônica e programação para controle de tráfego utilizando microcontroladores e LEDs.</p>
+                    </div>
+
+
+                    <div class="card" onclick="switchTab('tab-3')" tabindex="0" role="button" aria-label="Acessar projeto de Bengala Inteligente com Sensor">
+                        <i class="fa-solid fa-cane-user" aria-hidden="true"></i>
+                        <h4>Bengala Inteligente</h4>
+                        <p>Tecnologia assistiva com sensor ultrassônico e Arduino para detecção de obstáculos aéreos e terrestres.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="doc-section">
+                <h3><i class="fa-solid fa-universal-access" aria-hidden="true"></i> Recursos de Acessibilidade</h3>
+                <ul>
+                    <td><strong>Leitor de Voz para Cegos:</strong> Utilize o painel inferior fixo para ouvir a leitura completa da aba ativa, pausar, retomar ou interromper quando quiser.</td>
+                    <td><strong>Modo de Alto Contraste:</strong> Alterne as cores para um tema escuro de alto contraste amarelado/ciano, facilitando a leitura para pessoas com baixa visão.</td>
+                    <td><strong>Navegação por Teclado:</strong> Todas as abas, botões e cartões são totalmente acessíveis via tecla <code>TAB</code> e ativáveis com <code>ENTER</code> ou <code>ESPAÇO</code>.</td>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- ABA 2: DEFICIÊNCIA VISUAL -->
+        <section id="tab-1" class="tab-content" role="tabpanel" aria-labelledby="tablink-1">
+            <h2>📘 Documento para Apresentação: Deficiência Visual, Olhos, Lentes e Espelhos</h2>
+
+
+            <div class="doc-section">
+                <h3>1. Deficiência Visual</h3>
+                <p><strong>Definição:</strong> Perda parcial ou total da visão, irreversível mesmo com óculos, lentes ou cirurgia.</p>
+                <p><strong>Classificação (OMS):</strong></p>
+                <ul>
+                    <li><strong>Baixa visão:</strong> acuidade menor que 6/18 no melhor olho.</li>
+                    <li><strong>Cegueira:</strong> acuidade menor que 3/60 ou campo visual inferior a 10°.</li>
+                </ul>
+                <p><strong>Causas:</strong></p>
+                <ul>
+                    <li><strong>Congênetas:</strong> glaucoma congênito, catarata congênita, retinopatia da prematuridade.</li>
+                    <li><strong>Adquiridas:</strong> traumatismos, diabetes, degeneração macular, infecções oculares.</li>
+                </ul>
+                <p><strong>Impactos:</strong> Dificuldade em leitura, fotofobia, percepção limitada de cores e contrastes, necessidade de Braille ou tecnologias assistivas.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>2. Anatomia do Olho</h3>
+                <p><strong>Estruturas principais:</strong></p>
+                <ul>
+                    <li><strong>Córnea:</strong> primeira lente natural, responsável pela refração inicial.</li>
+                    <li><strong>Cristalino:</strong> lente flexível que ajusta o foco.</li>
+                    <li><strong>Retina:</strong> responsável pela formação da imagem.</li>
+                    <li><strong>Nervo óptico:</strong> transmite sinais ao cérebro.</li>
+                </ul>
+                <p><strong>Erros refrativos (não são deficiência visual):</strong></p>
+                <p>Miopia, hipermetropia, astigmatismo e presbiopia — corrigíveis com lentes.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>3. Lentes</h3>
+                <p><strong>Tipos de lentes:</strong></p>
+                <ul>
+                    <li><strong>Convergentes (convexas):</strong> focam a luz, usadas em hipermetropia.</li>
+                    <li><strong>Divergentes (côncavas):</strong> espalham a luz, usadas em miopia.</li>
+                </ul>
+                <p><strong>Aplicações:</strong></p>
+                <ul>
+                    <li>Óculos e lentes de contato para correção de erros refrativos.</li>
+                    <li>Lentes de aumento para baixa visão.</li>
+                    <li>Lentes intraoculares em cirurgias de catarata.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>4. Espelhos</h3>
+                <p><strong>Tipos de espelhos:</strong></p>
+                <ul>
+                    <li><strong>Plano:</strong> forma imagens virtuais, do mesmo tamanho.</li>
+                    <li><strong>Côncavo:</strong> pode formar imagens reais ou virtuais, dependendo da posição do objeto.</li>
+                    <li><strong>Convexo:</strong> amplia o campo de visão, usado em retrovisores.</li>
+                </ul>
+                <p><strong>Aplicações médicas e tecnológicas:</strong></p>
+                <ul>
+                    <li>Espelhos em instrumentos ópticos (microscópios, telescópios).</li>
+                    <li>Auxílio em exames oftalmológicos.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>5. Relação entre Óptica e Deficiência Visual</h3>
+                <p><strong>Óptica aplicada:</strong></p>
+                <p>Lentes corretivas ajudam em erros refrativos, mas não em deficiências irreversíveis. Espelhos e sistemas ópticos ampliam imagens para pessoas com baixa visão.</p>
+                <p><strong>Tecnologias assistivas:</strong></p>
+                <p>Softwares de ampliação, leitores de tela, lupas eletrônicas. Óculos inteligentes com reconhecimento de texto e objetos.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>6. Inclusão e Acessibilidade</h3>
+                <p><strong>Ferramentas de inclusão:</strong></p>
+                <ul>
+                    <li>Braille, bengala, cão-guia.</li>
+                    <li>Materiais em alto contraste e audiodescrição.</li>
+                </ul>
+                <p><strong>Educação:</strong> Estratégias pedagógicas adaptadas, uso de recursos táteis e digitais.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>🎯 Conclusão</h3>
+                <p>Este documento conecta deficiência visual com a anatomia do olho, o papel das lentes e dos espelhos na óptica, e mostra como esses elementos se relacionam com inclusão e acessibilidade.</p>
+                <p><em>Maria, você gostaria que eu organize esse conteúdo em formato de slides para facilitar sua apresentação, ou prefere que eu prepare um roteiro de fala para acompanhar os tópicos?</em></p>
+            </div>
+        </section>
+
+
+        <!-- ABA 3: SEMÁFORO ARDUINO -->
+        <section id="tab-2" class="tab-content" role="tabpanel" aria-labelledby="tablink-2">
+            <h2>🚦 Documento: Projeto de Semáforo com Arduino</h2>
+
+
+            <div class="doc-section">
+                <h3>1. Introdução</h3>
+                <p><strong>Contexto:</strong> O semáforo é um dispositivo essencial para organizar o trânsito e garantir a segurança de veículos e pedestres.</p>
+                <p><strong>Objetivo do projeto:</strong> Simular o funcionamento de um semáforo utilizando Arduino, LEDs e resistores, como forma prática de aprender eletrônica e programação.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>2. Materiais Utilizados</h3>
+                <ul>
+                    <li><strong>Arduino Uno:</strong> Microcontrolador que controla os LEDs.</li>
+                    <li><strong>Breadboard:</strong> Placa de prototipagem para montar o circuito.</li>
+                    <li><strong>LEDs:</strong> Vermelho, amarelo e verde.</li>
+                    <li><strong>Resistores:</strong> Limitam a corrente e protegem os LEDs.</li>
+                    <li><strong>Jumpers:</strong> Fios de conexão.</li>
+                    <li><strong>Fonte de energia:</strong> Cabo USB conectado ao computador.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>3. Circuito</h3>
+                <p><strong>Descrição:</strong></p>
+                <ul>
+                    <li>LED vermelho &rarr; pino digital 8.</li>
+                    <li>LED amarelo &rarr; pino digital 9.</li>
+                    <li>LED verde &rarr; pino digital 10.</li>
+                    <li>Todos os LEDs possuem resistores em série e estão ligados ao GND.</li>
+                </ul>
+                <p><strong>Sugestão:</strong> Além da foto, incluir um diagrama esquemático para facilitar a compreensão.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>4. Código</h3>
+                <p><strong>Estrutura:</strong></p>
+                <ul>
+                    <li><code>setup()</code>: Define os pinos como saída.</li>
+                    <li><code>loop()</code>: Executa a sequência de acender e apagar os LEDs.</li>
+                </ul>
+                <p><strong>Exemplo de explicação:</strong></p>
+                <ul>
+                    <li><code>digitalWrite(8, HIGH);</code> &rarr; Acende o LED vermelho.</li>
+                    <li><code>delay(5000);</code> &rarr; Mantém aceso por 5 segundos.</li>
+                </ul>
+                <p><strong>Comentário:</strong> Cada linha do código pode ser explicada para mostrar como o Arduino controla o semáforo.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>5. Funcionamento</h3>
+                <p><strong>Sequência típica:</strong></p>
+                <ul>
+                    <li><strong>Vermelho:</strong> Parar.</li>
+                    <li><strong>Verde:</strong> Seguir.</li>
+                    <li><strong>Amarelo:</strong> Atenção.</li>
+                </ul>
+                <p><strong>Ajustes:</strong> O tempo de cada luz pode ser alterado no código para simular diferentes situações de trânsito.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>6. Extensões do Projeto</h3>
+                <ul>
+                    <li><strong>Semáforo de pedestres:</strong> Adicionar LEDs extras ou buzzer para simular travessia de pedestres.</li>
+                    <li><strong>Semáforo inteligente:</strong> Integrar sensores de movimento ou botões para pedestres.</li>
+                    <li><strong>Aplicações educativas:</strong> Usar em escolas para ensinar eletrônica e programação.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>7. Conclusão</h3>
+                <p>Este projeto é uma simulação prática do funcionamento de um semáforo, conectando conceitos de trânsito, cidadania e tecnologia. Além de ser um exercício de eletrônica, ele mostra como a programação pode ser aplicada em situações reais.</p>
+                <h3>8.Circuito tinkercad</h3>
+                <p>Abaixo esta o direcionamento para o tinkercad.</p>
+                <a href="https://www.tinkercad.com/things/5dBSKKLWVJ3-semaforo?sharecode=9dLwBg4Bh6i9YaI6sAYdgmWwcTIywoXIOrPHU-gQ5Zk"> <img src="https://i.ibb.co/jvGqvV05/Screenshot-2026-08-27-14-05-08.png"> </a>
+        
+            </div>
+        </section>
+
+
+        <!-- ABA 4: BENGALA INTELIGENTE -->
+        <section id="tab-3" class="tab-content" role="tabpanel" aria-labelledby="tablink-3">
+            <h2>Bengala com Sensor de Obstáculos</h2>
+
+
+            <div class="doc-section">
+                <h3>Introdução</h3>
+                <p>Este projeto consiste no desenvolvimento de uma bengala inteligente equipada com tecnologia assistiva para aumentar a autonomia de pessoas com deficiência visual. O objetivo principal é detectar obstáculos aéreos ou terrestres que a bengala convencional não alcança, prevenindo colisões e quedas.</p>
+                <p>Para isso, utilizamos a plataforma Arduino integrada a um sensor ultrassônico, que mede a distância de objetos em tempo real, e um sistema de alerta sonoro (buzzer) ou vibratório. O resultado esperado é um dispositivo de baixo custo e alta eficiência que proporcione mais segurança, confiança e mobilidade ao usuário em seus deslocamentos diários.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>1. O Problema: Desafios da Mobilidade</h3>
+                <p>Pessoas com deficiência visual enfrentam barreiras diárias que vão além da falta de sinalização adequada. A bengala guia tradicional, embora essencial, possui uma limitação física: ela só detecta obstáculos que estejam em contato direto com o solo.</p>
+                <p>Isso deixa o usuário vulnerável a obstáculos aéreos, como galhos de árvores, placas e outros objetos suspensos, que podem causar acidentes na região do tronco e do rosto. Além disso, a incerteza sobre o ambiente gera insegurança emocional e limita a liberdade de locomoção.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>2. A Importância da Tecnologia Assistiva</h3>
+                <p>A tecnologia assistiva atua como uma ponte entre a limitação e a autonomia. No contexto da deficiência visual, ferramentas inteligentes não substituem os sentidos humanos, mas os ampliam.</p>
+                <p>Ao integrar sensores e sistemas eletrônicos em objetos comuns, transformamos um instrumento simples em um dispositivo interativo, capaz de “interpretar” o ambiente e fornecer informações em tempo real, aumentando o tempo de reação do usuário e sua percepção espacial.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>3. Justificativa</h3>
+                <p>A justificativa deste projeto está na necessidade de promover inclusão social e acessibilidade de forma democrática. Desenvolver uma bengala inteligente utilizando componentes de baixo custo demonstra que é possível criar soluções eficientes sem depender de tecnologias inacessíveis.</p>
+                <p><strong>O projeto busca:</strong></p>
+                <ul>
+                    <li><strong>Segurança:</strong> Reduzir o risco de colisões com obstáculos.</li>
+                    <li><strong>Autonomia:</strong> Permitir maior independência na locomoção.</li>
+                    <li><strong>Dignidade:</strong> Garantir o direito de ir e vir com mais confiança.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>4. Objetivos</h3>
+                <p><strong>Objetivo Geral:</strong></p>
+                <p>Desenvolver uma bengala inteligente com sensor capaz de detectar obstáculos.</p>
+                <p><strong>Objetivos Específicos:</strong></p>
+                <ul>
+                    <li>Utilizar Arduino para programação</li>
+                    <li>Integrar sensor ultrassônico</li>
+                    <li>Emitir alerta (buzzer ou vibração)</li>
+                    <li>Testar o funcionamento do sistema</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>5. Materiais Utilizados</h3>
+                <ul>
+                    <li>Arduino Uno</li>
+                    <li>Sensor ultrassônico HC-SR04</li>
+                    <li>Buzzer</li>
+                    <li>LED RGB</li>
+                    <li>Resistor</li>
+                    <li>Jumpers (fios)</li>
+                    <li>Protoboard</li>
+                    <li>Fonte de energia (bateria)</li>
+                    <li>Bengala (estrutura física)</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>6. Etapas de Construção</h3>
+                <p>O desenvolvimento do projeto foi realizado nas seguintes etapas:</p>
+                <ol>
+                    <li>Definir o funcionamento da bengala</li>
+                    <li>Escolher os componentes</li>
+                    <li>Conectar o sensor ao Arduino</li>
+                    <li>Ligar o buzzer ou motor vibratório</li>
+                    <li>Criar o código para medir distância</li>
+                    <li>Definir o tipo de alerta</li>
+                    <li>Prender o sensor na bengala</li>
+                    <li>Organizar os fios</li>
+                    <li>Testar a detecção de distância</li>
+                    <li>Ajustar a sensibilidade do sistema</li>
+                </ol>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>7. Funcionamento do Sistema</h3>
+                <p>O sistema funciona da seguinte forma:</p>
+                <ul>
+                    <li>O sensor ultrassônico emite ondas sonoras.</li>
+                    <li>Essas ondas atingem um objeto e retornam.</li>
+                    <li>O Arduino calcula a distância com base no tempo de retorno.</li>
+                    <li>Se o objeto estiver próximo, o sistema ativa o alerta.</li>
+                    <li>O alerta pode ser sonoro (buzzer) ou vibratório.</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>8. Circuito do Protótipo</h3>
+                <p><strong>Sensor HC-SR04:</strong></p>
+                <ul>
+                    <li>VCC &rarr; 5V</li>
+                    <li>GND &rarr; GND</li>
+                    <li>TRIG &rarr; D9</li>
+                    <li>ECHO &rarr; D10</li>
+                </ul>
+                <p><strong>Buzzer:</strong></p>
+                <ul>
+                    <li>+ &rarr; D8</li>
+                    <li>- &rarr; GND</li>
+                </ul>
+                <p><strong>LED RGB:</strong></p>
+                <ul>
+                    <li>R &rarr; D3 (com resistor)</li>
+                    <li>G &rarr; D5 (com resistor)</li>
+                    <li>B &rarr; D6 (com resistor)</li>
+                    <li>Cátodo comum &rarr; GND</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>9. Código Utilizado</h3>
+                <pre><code>// HC-SR04
+const int trigPin = 9;
+const int echoPin = 10;
+
+
+// Buzzer
+const int buzzerPin = 8;
+
+
+// LED RGB (cátodo comum)
+const int redPin = 3;
+const int greenPin = 5;
+const int bluePin = 6;
+
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+
+  pinMode(buzzerPin, OUTPUT);
+
+
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+
+
+  Serial.begin(9600);
+}
+
+
+void loop() {
+  long duration;
+  float distance;
+
+
+  // Pulso do HC-SR04
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+
+
+  digitalWrite(trigPin, LOW);
+
+
+  duration = pulseIn(echoPin, HIGH);
+
+
+  // Distância em cm
+  distance = duration * 0.0343 / 2;
+
+
+  Serial.print("Distancia: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+
+  // Controle das cores e buzzer
+  if (distance > 200) {
+    // Verde
+    setColor(0, 255, 0);
+    noTone(buzzerPin);
+  }
+  else if (distance >= 100 ) {
+    // Amarelo
+    setColor(255, 255, 0);
+    tone(buzzerPin, 1000); // Som médio
+  }
+  else {
+    // Vermelho
+    setColor(255, 0, 0);
+    tone(buzzerPin, 4000); // Som mais agudo
+  }
+
+
+  delay(100);
+}
+
+
+// Função para controlar o LED RGB
+void setColor(int red, int green, int blue) {
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);
+}</code></pre>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>10. Resultados Obtidos</h3>
+                <p>O dispositivo apresentou funcionamento satisfatório durante os testes.</p>
+                <p>Foi possível detectar obstáculos a uma distância média entre 100 cm e 250 cm. O buzzer foi acionado corretamente sempre que um objeto se aproximava da distância definida.</p>
+                <p>Foram observadas pequenas variações dependendo do tipo de superfície e do ambiente.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>11. Análise e Discussão</h3>
+                <p><strong>Pontos positivos:</strong></p>
+                <ul>
+                    <li>Baixo custo</li>
+                    <li>Fácil montagem</li>
+                    <li>Resposta rápida</li>
+                </ul>
+                <p><strong>Limitações:</strong></p>
+                <ul>
+                    <li>Pode falhar em ambientes com chuva</li>
+                    <li>Dificuldade com objetos muito finos</li>
+                    <li>Dependência de bateria</li>
+                </ul>
+                <p><strong>Possíveis melhorias:</strong></p>
+                <ul>
+                    <li>Uso de mais sensores</li>
+                    <li>Implementação de vibração ao invés de som</li>
+                    <li>Bateria recarregável</li>
+                    <li>Ajuste automático de sensibilidade</li>
+                </ul>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>12. Conclusão</h3>
+                <p>O objetivo do projeto foi alcançado com sucesso, pois foi possível desenvolver uma bengala inteligente capaz de detectar obstáculos e alertar o usuário de forma eficiente.</p>
+                <p>O projeto demonstra a importância da tecnologia na promoção da inclusão social, mostrando que soluções simples e acessíveis podem gerar grande impacto na vida das pessoas.</p>
+                <p>Dessa forma, a bengala inteligente contribui para uma sociedade mais inclusiva, proporcionando mais segurança, autonomia e qualidade de vida para pessoas com deficiência visual.</p>
+            </div>
+
+
+            <div class="doc-section">
+                <h3>13. Exemplos do projeto (fotos)</h3>
+                <p><em>[Área reservada para inclusão das fotos demonstrativas da montagem física e dos testes práticos da Bengala Inteligente]</em></p>
+            </div>
+        </section>
+
+
+    </main>
+
+
+    <!-- Sticky Screen Reader Bar -->
+    <div class="reader-toolbar" role="region" aria-label="Controles do Leitor para Cegos">
+        <div class="reader-info">
+            <span id="status-icon" class="status-badge" aria-hidden="true"></span>
+            <span id="reader-status">Leitor pronto.</span>
+        </div>
+        <div class="reader-controls">
+            <select id="voice-select" class="reader-select" aria-label="Selecionar voz da leitura"></select>
+            <button id="btn-play" class="btn-reader" onclick="speakCurrentTab()" aria-label="Ouvir conteúdo da aba atual">
+                <i class="fa-solid fa-play" aria-hidden="true"></i> Ler Aba
+            </button>
+            <button id="btn-pause" class="btn-reader" onclick="pauseSpeech()" aria-label="Pausar leitura">
+                <i class="fa-solid fa-pause" aria-hidden="true"></i> Pausar
+            </button>
+            <button id="btn-stop" class="btn-reader stop" onclick="stopSpeech()" aria-label="Parar leitura">
+                <i class="fa-solid fa-square" aria-hidden="true"></i> Parar
+            </button>
+        </div>
+    </div>
+
+
+    <!-- JavaScript logic -->
+    <script>
+        // High Contrast Toggle
+        const contrastBtn = document.getElementById('contrast-toggle');
+        contrastBtn.addEventListener('click', () => {
+            document.body.classList.toggle('high-contrast');
+            const isHC = document.body.classList.contains('high-contrast');
+            contrastBtn.setAttribute('aria-pressed', isHC);
+        });
+
+
+        // Font Size Adjustments
+        let currentFontSize = 100;
+        document.getElementById('font-increase').addEventListener('click', () => {
+            if (currentFontSize < 160) {
+                currentFontSize += 10;
+                document.documentElement.style.fontSize = currentFontSize + '%';
+            }
+        });
+        document.getElementById('font-decrease').addEventListener('click', () => {
+            if (currentFontSize > 80) {
+                currentFontSize -= 10;
+                document.documentElement.style.fontSize = currentFontSize + '%';
+            }
+        });
+
+
+        // Tab Switching Logic
+        function openTab(evt, tabId) {
+            stopSpeech(); // Stop speech when switching tabs
+
+
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+
+            const tabLinks = document.querySelectorAll('.tab-btn');
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+                link.setAttribute('aria-selected', 'false');
+            });
+
+
+            const selectedTab = document.getElementById(tabId);
+            selectedTab.classList.add('active');
+
+
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+                evt.currentTarget.setAttribute('aria-selected', 'true');
+            } else {
+                const link = document.querySelector(`[aria-controls="${tabId}"]`);
+                if (link) {
+                    link.classList.add('active');
+                    link.setAttribute('aria-selected', 'true');
+                }
+            }
+
+
+            // Announce tab change for screen readers
+            const tabName = document.querySelector(`[aria-controls="${tabId}"]`).innerText;
+            updateStatus('Aba selecionada: ' + tabName);
+        }
+
+
+        function switchTab(tabId) {
+            openTab(null, tabId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        // --- Web Speech API (Leitor de Tela para Cegos) ---
+        const synth = window.speechSynthesis;
+        let utterance = null;
+        const voiceSelect = document.getElementById('voice-select');
+        const readerStatus = document.getElementById('reader-status');
+        const statusIcon = document.getElementById('status-icon');
+
+
+        function populateVoices() {
+            if (!synth) return;
+            const voices = synth.getVoices();
+            voiceSelect.innerHTML = '';
+           
+            const ptVoices = voices.filter(v => v.lang.includes('pt'));
+            const voicesToUse = ptVoices.length > 0 ? ptVoices : voices;
+
+
+            voicesToUse.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.setAttribute('data-lang', voice.lang);
+                option.setAttribute('data-name', voice.name);
+                voiceSelect.appendChild(option);
+            });
+        }
+
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoices;
+        }
+        populateVoices();
+
+
+        function speakCurrentTab() {
+            if (!synth) {
+                alert('Seu navegador não suporta a API de leitura de voz (Web Speech API).');
+                return;
+            }
+
+
+            if (synth.speaking && synth.paused) {
+                synth.resume();
+                updateStatus('Leitura retomada...', true);
+                return;
+            }
+
+
+            if (synth.speaking) {
+                synth.cancel();
+            }
+
+
+            const activeTab = document.querySelector('.tab-content.active');
+            if (!activeTab) return;
+
+
+            // Extract plain text cleanly
+            const textToRead = activeTab.innerText;
+
+
+            utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 1.0; // Normal rate
+
+
+            // Selected Voice
+            const selectedOption = voiceSelect.selectedOptions[0];
+            if (selectedOption) {
+                const selectedName = selectedOption.getAttribute('data-name');
+                const voices = synth.getVoices();
+                const voice = voices.find(v => v.name === selectedName);
+                if (voice) utterance.voice = voice;
+            }
+
+
+            utterance.onstart = () => updateStatus('Lendo conteúdo da aba...', true);
+            utterance.onend = () => updateStatus('Leitura concluída.', false);
+            utterance.onerror = () => updateStatus('Erro na leitura de voz.', false);
+
+
+            synth.speak(utterance);
+        }
+
+
+        function pauseSpeech() {
+            if (synth && synth.speaking) {
+                if (!synth.paused) {
+                    synth.pause();
+                    updateStatus('Leitura pausada.', false);
+                }
+            }
+        }
+
+
+        function stopSpeech() {
+            if (synth && synth.speaking) {
+                synth.cancel();
+                updateStatus('Leitura interrompida.', false);
+            }
+        }
+
+
+        function updateStatus(msg, isSpeaking = false) {
+            readerStatus.textContent = msg;
+            if (isSpeaking) {
+                statusIcon.classList.add('speaking');
+            } else {
+                statusIcon.classList.remove('speaking');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
