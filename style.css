@@ -1,0 +1,508 @@
+/* ==========================================================================
+   VARIABLES & THEMING
+   ========================================================================== */
+:root {
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --primary-color: #1a568c;
+    --primary-hover: #13406a;
+    --accent-color: #27ae60;
+    --border-color: #dcdfe6;
+    --code-bg: #1e1e1e;
+    --code-color: #d4d4d4;
+    --header-bg: #1a568c;
+    --header-text: #ffffff;
+    --focus-outline: 3px solid #f39c12;
+    --reader-bar-bg: #2c3e50;
+    --reader-bar-text: #ffffff;
+}
+
+
+/* High Contrast Theme Variables */
+body.high-contrast {
+    --bg-color: #000000;
+    --card-bg: #000000;
+    --text-color: #ffff00;
+    --primary-color: #ffff00;
+    --primary-hover: #ffffff;
+    --accent-color: #00ffff;
+    --border-color: #ffff00;
+    --code-bg: #000000;
+    --code-color: #00ff00;
+    --header-bg: #000000;
+    --header-text: #ffff00;
+    --focus-outline: 4px solid #00ffff;
+    --reader-bar-bg: #1a1a1a;
+    --reader-bar-text: #ffff00;
+}
+
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding-bottom: 90px; /* Espaço para a barra fixa de leitura */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Skip link para leitores de tela */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #f39c12;
+    color: #000;
+    padding: 8px 16px;
+    z-index: 1000;
+    transition: top 0.3s;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+}
+
+
+.skip-link:focus {
+    top: 0;
+}
+
+
+/* Acessibilidade de Foco */
+:focus-visible {
+    outline: var(--focus-outline) !important;
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   HEADER SECTION
+   ========================================================================== */
+header {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 1.5rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--border-color);
+}
+
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+
+.header-title h1 {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+}
+
+
+.header-title p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+
+.accessibility-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+
+.btn-acc {
+    background: transparent;
+    border: 2px solid var(--header-text);
+    color: var(--header-text);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+}
+
+
+.btn-acc:hover {
+    background: var(--header-text);
+    color: var(--header-bg);
+}
+
+
+/* ==========================================================================
+   NAVIGATION TABS
+   ========================================================================== */
+nav.tabs-nav {
+    background: var(--card-bg);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+.tabs-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+
+.tab-btn {
+    padding: 1rem 1.5rem;
+    border: none;
+    background: none;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+
+.tab-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+.tab-btn.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+
+body.high-contrast .tab-btn.active {
+    border-bottom-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+
+/* ==========================================================================
+   MAIN CONTENT & TABS
+   ========================================================================== */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+
+.tab-content {
+    display: none;
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.tab-content.active {
+    display: block;
+}
+
+
+/* Typography */
+h1, h2, h3, h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4 {
+    color: var(--text-color);
+}
+
+
+p {
+    margin-bottom: 1.2rem;
+    font-size: 1.05rem;
+}
+
+
+ul, ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.8rem;
+}
+
+
+li, td {
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+
+.doc-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+.doc-section:last-child {
+    border-bottom: none;
+}
+
+
+/* ==========================================================================
+   CARDS & HERO BANNER
+   ========================================================================== */
+.welcome-hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, rgba(26, 86, 140, 0.1), rgba(39, 174, 96, 0.1));
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+
+body.high-contrast .welcome-hero {
+    background: transparent;
+}
+
+
+.welcome-hero h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+
+.card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+
+body.high-contrast .card i {
+    color: var(--accent-color);
+}
+
+
+/* ==========================================================================
+   CODE DISPLAY STYLING
+   ========================================================================== */
+pre {
+    background-color: var(--code-bg);
+    color: var(--code-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-color);
+}
+
+
+code {
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    background: rgba(0, 0, 0, 0.06);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+
+body.high-contrast code {
+    background: #333;
+    color: #00ff00;
+}
+
+
+/* ==========================================================================
+   STICKY READER TOOLBAR
+   ========================================================================== */
+.reader-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--reader-bar-bg);
+    color: var(--reader-bar-text);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+
+.reader-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
+}
+
+
+.reader-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+
+.btn-reader {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+
+body.high-contrast .btn-reader {
+    background: var(--accent-color);
+    color: #000;
+}
+
+
+.btn-reader:hover {
+    opacity: 0.9;
+}
+
+
+.btn-reader.stop {
+    background: #e74c3c;
+    color: #ffffff;
+}
+
+
+.reader-select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    max-width: 200px;
+}
+
+
+/* Status Indicator Dot */
+.status-badge {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #95a5a6;
+}
+
+
+.status-badge.speaking {
+    background-color: #2ecc71;
+    box-shadow: 0 0 8px #2ecc71;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+
+    .accessibility-controls {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+
+    .reader-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .reader-controls {
+        justify-content: space-between;
+    }
+
+
+    .tab-btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+
+
+    .tab-content {
+        padding: 1.2rem;
+    }
+}
+
